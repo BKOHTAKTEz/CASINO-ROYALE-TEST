@@ -21,7 +21,7 @@
             position: relative;
         }
 
-        /* ✅ ФОН */
+        /* ФОН С СЕТКОЙ */
         body::before {
             content: '';
             position: fixed;
@@ -30,156 +30,129 @@
             width: 100%;
             height: 100%;
             background: 
-                repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(0,255,136,0.1) 2px,
-                    rgba(0,255,136,0.1) 4px
-                ),
-                radial-gradient(circle at 20% 80%, rgba(0,255,136,0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255,170,0,0.1) 0%, transparent 50%);
+                repeating-linear-gradient(90deg, transparent 0px, transparent 19px, rgba(0,255,136,0.15) 19px, rgba(0,255,136,0.15) 20px),
+                repeating-linear-gradient(0deg, transparent 0px, transparent 19px, rgba(0,255,136,0.15) 19px, rgba(0,255,136,0.15) 20px);
             z-index: 1;
         }
 
-        /* ✅ ГЛАВНЫЙ КОНТЕЙНЕР */
-        .game-container {
-            position: relative;
-            z-index: 10;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* ✅ ГРАДИЕНТНЫЙ МНОЖИТЕЛЬ */
-        .multiplier-container {
-            position: fixed;
-            top: 60px;
-            left: 0;
-            right: 0;
-            height: 200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 20;
-        }
-
-        .multiplier-line {
-            position: absolute;
-            left: 20px;
-            right: 20px;
-            height: 4px;
-            background: linear-gradient(90deg, transparent 0%, #00ff88 20%, #00ff88 80%, transparent 100%);
-            border-radius: 2px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .multiplier-text {
-            font-size: 36px;
-            font-weight: bold;
-            font-family: monospace;
-            margin-top: 10px;
-            text-shadow: 0 0 20px #00ff88;
-            z-index: 25;
-            position: relative;
-        }
-
-        /* ✅ РАКЕТА */
+        /* РАКЕТА - ВЫШЕ ВСЕГО */
         .rocket-area {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            height: 280px;
+            height: 35vh;
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            z-index: 15;
+            z-index: 100;
             pointer-events: none;
         }
 
         .rocket {
-            font-size: 100px;
+            font-size: 90px;
             text-shadow: 0 0 30px #00ff88;
             transition: all 0.4s ease;
         }
 
         .rocket-flying {
-            transform: translateY(-120px) scale(1.1);
+            transform: translateY(-100px) scale(1.2);
             text-shadow: 0 0 50px #ffaa00;
-            animation: rocket-shake 0.08s infinite;
+            animation: shake 0.1s infinite;
         }
 
-        @keyframes rocket-shake {
-            0%, 100% { transform: translateY(-120px) scale(1.1) rotate(0deg); }
-            50% { transform: translateY(-115px) scale(1.15) rotate(3deg); }
+        @keyframes shake {
+            0%, 100% { transform: translateY(-100px) scale(1.2) rotate(0deg); }
+            50% { transform: translateY(-95px) scale(1.25) rotate(2deg); }
         }
 
         .rocket-exploded {
-            transform: scale(1.4);
+            transform: scale(1.5);
             text-shadow: 0 0 60px #ff4444;
-            animation: explode-emoji 0.6s ease-out;
+            animation: explode 0.8s ease-out;
         }
 
-        @keyframes explode-emoji {
-            0% { transform: scale(1.1) rotate(0deg); }
-            50% { transform: scale(1.6) rotate(180deg); }
-            100% { transform: scale(1.4) rotate(360deg); }
+        @keyframes explode {
+            0% { transform: scale(1.2); }
+            50% { transform: scale(1.7); }
+            100% { transform: scale(1.4); }
         }
 
-        /* ✅ КНОПКИ */
-        .controls {
+        /* МНОЖИТЕЛЬ */
+        .multiplier-area {
             position: fixed;
-            bottom: 140px;
+            top: 50px;
             left: 20px;
             right: 20px;
-            z-index: 30;
+            height: 80px;
+            z-index: 90;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .multiplier-line {
+            flex: 1;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent 0%, #00ff88 25%, #00ff88 75%, transparent 100%);
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .multiplier-text {
+            position: absolute;
+            font-size: 32px;
+            font-weight: bold;
+            font-family: monospace;
+            color: #00ff88;
+            text-shadow: 0 0 20px #00ff88;
+            top: -10px;
+        }
+
+        /* КНОПКИ - ВЫШЕ РАКЕТЫ */
+        .controls {
+            position: fixed;
+            bottom: 160px;
+            left: 20px;
+            right: 20px;
+            z-index: 200;
             display: flex;
             flex-direction: column;
             gap: 15px;
-            pointer-events: auto;
         }
 
         .bet-input {
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.8);
             border: 2px solid #00ff88;
             border-radius: 25px;
-            padding: 22px 25px;
+            padding: 20px 25px;
             color: #fff;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             text-align: center;
-            backdrop-filter: blur(20px);
             font-family: monospace;
         }
 
-        .bet-input:focus {
-            outline: none;
-            box-shadow: 0 0 20px rgba(0,255,136,0.5);
-        }
-
         .bet-btn, .cashout-btn {
-            padding: 22px 30px;
+            padding: 20px;
             border: none;
             border-radius: 25px;
             font-size: 20px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s;
             font-family: monospace;
-            backdrop-filter: blur(20px);
+            transition: all 0.2s;
         }
 
         .bet-btn {
-            background: linear-gradient(45deg, #00ff88, #00cc66);
+            background: linear-gradient(45deg, #00ff88, #00dd77);
             color: #000;
         }
 
         .bet-btn:hover:not(:disabled) {
-            transform: scale(1.05);
-            box-shadow: 0 10px 40px rgba(0,255,136,0.6);
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(0,255,136,0.5);
         }
 
         .cashout-btn {
@@ -189,59 +162,42 @@
         }
 
         .cashout-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 40px rgba(255,170,0,0.6);
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(255,170,0,0.5);
         }
 
-        button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        /* ✅ ЛИДЕРБОРД */
+        /* ЛИДЕРБОРД */
         .leaderboard {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 130px;
+            height: 140px;
             background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(25px);
+            backdrop-filter: blur(20px);
             padding: 15px 20px;
-            z-index: 25;
+            z-index: 150;
             border-top: 2px solid #00ff88;
-            overflow-y: auto;
+            overflow: hidden;
         }
 
         .leaderboard-title {
             font-size: 12px;
             color: #00ff88;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .player-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 6px 0;
+            padding: 5px 0;
             font-size: 13px;
-            border-bottom: 1px solid rgba(0,255,136,0.2);
-        }
-
-        .player-row:last-child {
-            border-bottom: none;
         }
 
         .player-name {
             color: #fff;
             font-weight: 500;
-            max-width: 120px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
         }
 
         .player-bet {
@@ -252,179 +208,144 @@
     </style>
 </head>
 <body>
-    <div class="game-container">
-        <!-- ✅ РАКЕТА -->
-        <div class="rocket-area">
-            <div class="rocket" id="rocketEmoji">🚀</div>
-        </div>
+    <!-- РАКЕТА -->
+    <div class="rocket-area">
+        <div class="rocket" id="rocket">🚀</div>
+    </div>
 
-        <!-- ✅ МНОЖИТЕЛЬ -->
-        <div class="multiplier-container">
-            <div class="multiplier-line" id="multiplierLine"></div>
-            <div class="multiplier-text" id="multiplierText">1.00x</div>
-        </div>
+    <!-- МНОЖИТЕЛЬ -->
+    <div class="multiplier-area">
+        <div class="multiplier-line"></div>
+        <div class="multiplier-text" id="multiplier">1.00x</div>
+    </div>
 
-        <!-- ✅ КОНТРОЛЫ -->
-        <div class="controls">
-            <input type="number" class="bet-input" id="betInput" placeholder="Ставка" min="1" max="1000" value="10">
-            <button class="bet-btn" id="betButton">🚀 СТАВИТЬ</button>
-            <button class="bet-btn cashout-btn" id="cashoutButton">💰 ВЫВОД</button>
-        </div>
+    <!-- КОНТРОЛЫ -->
+    <div class="controls">
+        <input type="number" class="bet-input" id="betInput" value="10" min="1" max="1000">
+        <button class="bet-btn" id="betBtn">🚀 СТАВИТЬ</button>
+        <button class="bet-btn cashout-btn" id="cashoutBtn">💰 ВЫВОД</button>
+    </div>
 
-        <!-- ✅ ЛИДЕРБОРД -->
-        <div class="leaderboard">
-            <div class="leaderboard-title">СТАВКИ ИГРОКОВ</div>
-            <div id="playersList"></div>
-        </div>
+    <!-- ЛИДЕРБОРД -->
+    <div class="leaderboard">
+        <div class="leaderboard-title">СТАВКИ ИГРОКОВ</div>
+        <div id="players"></div>
     </div>
 
     <script>
-        const tg = window.Telegram.WebApp;
-        if (tg) tg.expand();
-        
-        let gamePhase = 0; // 0=betting, 1=flying, 2=crashed
+        // ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
+        let gamePhase = 0; // 0=ставки, 1=полет, 2=краш
         let phaseTime = 0;
-        let currentMultiplier = 1.00;
-        let betAmount = 10;
+        let multiplier = 1.00;
+        let myBet = 0;
         let players = [];
 
-        // ✅ Фейковые игроки
-        const fakeNames = ['Толик', 'ЕЛХВ', 'Русан', 'Player', 'Игрок', 'Alex', 'Max', 'Bot'];
+        // ФЕЙК ИГРОКИ
+        const fakePlayers = ['Толик', 'ЕЛХВ', 'Русан'];
 
-        // ✅ Инициализация
-        function init() {
-            document.getElementById('betInput').addEventListener('input', function() {
-                betAmount = parseFloat(this.value) || 10;
-            });
-            
-            document.getElementById('betButton').onclick = placeBet;
-            document.getElementById('cashoutButton').onclick = cashout;
-            addFakePlayers();
+        // ✅ ФУНКЦИЯ СТАРТА ИГРЫ
+        function startGame() {
+            console.log('🚀 ИГРА СТАРТОВАЛА!');
             gameLoop();
         }
 
-        // ✅ Игровой цикл
+        // ✅ ОСНОВНОЙ ЦИКЛ ИГРЫ
         function gameLoop() {
             phaseTime += 0.1;
 
-            if (gamePhase === 0) { // Ставки 7 сек
+            // ФАЗА 1: СТАВКИ (7 секунд)
+            if (gamePhase === 0) {
                 if (phaseTime >= 7) {
                     gamePhase = 1;
                     phaseTime = 0;
-                    rocketFlying();
-                    showCashout(false);
+                    rocketFly();
                 }
-            } else if (gamePhase === 1) { // Полет
-                currentMultiplier = 1 + phaseTime * 4;
-                document.getElementById('multiplierText').textContent = currentMultiplier.toFixed(2) + 'x';
+            }
+            // ФАЗА 2: ПОЛЕТ
+            else if (gamePhase === 1) {
+                multiplier = 1 + (phaseTime * 3.5);
+                document.getElementById('multiplier').textContent = multiplier.toFixed(2) + 'x';
                 
-                if (phaseTime >= 2.5 || currentMultiplier > 12) {
+                if (phaseTime >= 3 || multiplier > 10) {
                     gamePhase = 2;
                     phaseTime = 0;
-                    rocketExplode();
+                    rocketCrash();
                 }
-            } else if (gamePhase === 2) { // Крах 1 сек
+            }
+            // ФАЗА 3: КРАШ (1 секунда)
+            else if (gamePhase === 2) {
                 if (phaseTime >= 1) {
-                    gamePhase = 0;
-                    phaseTime = 0;
-                    rocketReady();
-                    currentMultiplier = 1.00;
-                    document.getElementById('multiplierText').textContent = '1.00x';
-                    showCashout(true);
-                    addFakePlayers();
+                    resetGame();
                 }
             }
 
             setTimeout(gameLoop, 100);
         }
 
-        // ✅ Ракета состояния
-        function rocketReady() {
-            const rocket = document.getElementById('rocketEmoji');
-            rocket.textContent = '🚀';
-            rocket.className = '';
+        // ✅ РАКЕТА ЛЕТИТ
+        function rocketFly() {
+            document.getElementById('rocket').className = 'rocket-flying';
+            document.getElementById('betBtn').style.display = 'none';
         }
 
-        function rocketFlying() {
-            const rocket = document.getElementById('rocketEmoji');
-            rocket.className = 'rocket-flying';
+        // ✅ РАКЕТА ВЗРЫВАЕТСЯ
+        function rocketCrash() {
+            document.getElementById('rocket').textContent = '💥';
+            document.getElementById('rocket').className = 'rocket-exploded';
+            document.getElementById('multiplier').style.color = '#ff4444';
         }
 
-        function rocketExplode() {
-            const rocket = document.getElementById('rocketEmoji');
-            rocket.textContent = '💥';
-            rocket.className = 'rocket-exploded';
+        // ✅ НОВЫЙ РАУНД
+        function resetGame() {
+            gamePhase = 0;
+            phaseTime = 0;
+            multiplier = 1.00;
+            document.getElementById('rocket').textContent = '🚀';
+            document.getElementById('rocket').className = '';
+            document.getElementById('multiplier').textContent = '1.00x';
+            document.getElementById('multiplier').style.color = '#00ff88';
+            document.getElementById('betBtn').style.display = 'block';
+            addFakePlayer();
         }
 
-        // ✅ Кнопки
-        function showCashout(betting) {
-            const betBtn = document.getElementById('betButton');
-            const cashoutBtn = document.getElementById('cashoutButton');
-            
-            if (betting) {
-                betBtn.style.display = 'block';
-                cashoutBtn.style.display = 'none';
-                betBtn.disabled = false;
-            } else {
-                betBtn.style.display = 'none';
-                if (betAmount > 0) cashoutBtn.style.display = 'block';
+        // ✅ СТАВКА
+        document.getElementById('betBtn').onclick = function() {
+            myBet = parseFloat(document.getElementById('betInput').value) || 10;
+            players.push({name: 'ТЫ', bet: myBet});
+            updatePlayers();
+        };
+
+        // ✅ ВЫВОД
+        document.getElementById('cashoutBtn').onclick = function() {
+            if (myBet > 0 && gamePhase === 1) {
+                const win = myBet * multiplier;
+                alert('🎉 +' + (win - myBet).toFixed(2) + '⭐');
+                myBet = 0;
             }
-        }
+        };
 
-        // ✅ Ставка
-        function placeBet() {
-            if (gamePhase !== 0) {
-                tg?.showAlert?.('⏳ Ставки закрыты!');
-                return;
-            }
-            
-            betAmount = parseFloat(document.getElementById('betInput').value) || 10;
-            if (betAmount < 1 || betAmount > 1000) {
-                tg?.showAlert?.('❌ Ставка 1-1000⭐');
-                return;
-            }
-            
-            players.push({name: 'ТЫ', bet: betAmount});
-            updateLeaderboard();
-        }
-
-        // ✅ Вывод
-        function cashout() {
-            if (betAmount <= 0 || gamePhase !== 1) {
-                tg?.showAlert?.('⏳ Ждите полета!');
-                return;
-            }
-            
-            const profit = betAmount * (currentMultiplier - 1);
-            tg?.showAlert?.(`🎉 +${profit.toFixed(2)}⭐`);
-            betAmount = 0;
-        }
-
-        // ✅ Лидерборд
-        function updateLeaderboard() {
-            const list = document.getElementById('playersList');
-            const shownPlayers = players.slice(-5);
-            list.innerHTML = shownPlayers.map(p => `
-                <div class="player-row">
+        // ✅ ЛИДЕРБОРД
+        function updatePlayers() {
+            const list = document.getElementById('players');
+            const shown = players.slice(-4);
+            list.innerHTML = shown.map(p => 
+                `<div class="player-row">
                     <span class="player-name">${p.name}</span>
                     <span class="player-bet">${p.bet.toFixed(2)}⭐</span>
-                </div>
-            `).join('');
+                </div>`
+            ).join('');
         }
 
-        function addFakePlayers() {
-            if (Math.random() < 0.7) {
-                const name = fakeNames[Math.floor(Math.random() * fakeNames.length)];
-                players.push({
-                    name: name, 
-                    bet: (Math.random() * 50 + 5).toFixed(2)
-                });
-                updateLeaderboard();
-            }
+        function addFakePlayer() {
+            const name = fakePlayers[Math.floor(Math.random() * fakePlayers.length)];
+            players.push({name: name, bet: (5 + Math.random() * 45)});
+            updatePlayers();
         }
 
-        // ✅ Старт
-        window.onload = init;
+        // ✅ СТАРТ ЧЕРЕЗ 1 СЕКУНДУ
+        window.onload = function() {
+            setTimeout(startGame, 1000);
+        };
     </script>
 </body>
 </html>

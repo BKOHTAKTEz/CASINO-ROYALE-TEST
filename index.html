@@ -27,7 +27,7 @@
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             padding: 20px;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 20px;
@@ -48,11 +48,112 @@
             100% { transform: scale(1); }
         }
 
+        /* ПЕРЕНЕСЛИ ИГРОВОЕ ПОЛЕ НА ВЕРХ ПОСЛЕ ЗАГОЛОВКА */
+        .game-container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Новый контейнер для траектории ракеты */
+        .rocket-trajectory {
+            position: relative;
+            height: 200px;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .trajectory-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to top, transparent, #00ff88, transparent);
+            transform: translateX(-50%);
+        }
+
+        .trajectory-marks {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .mark {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .mark-label {
+            position: absolute;
+            right: 10px;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+        }
+
+        .rocket-animation {
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%) translateY(0);
+            font-size: 40px;
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 10;
+        }
+
+        .multiplier-display {
+            font-size: 72px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.7);
+            transition: all 0.1s;
+            min-height: 85px;
+        }
+
+        .speed-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .speed-bar {
+            width: 150px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .speed-fill {
+            height: 100%;
+            background: linear-gradient(to right, #00ff88, #ffcc00, #ff416c);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
         .balance-container {
             background: rgba(0, 0, 0, 0.5);
             padding: 20px;
             border-radius: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
@@ -69,7 +170,7 @@
             background: rgba(0, 0, 0, 0.5);
             padding: 25px;
             border-radius: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -117,34 +218,10 @@
             transform: scale(1.05);
         }
 
-        .game-container {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .multiplier-display {
-            font-size: 72px;
-            font-weight: bold;
-            margin: 30px 0;
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.7);
-            transition: all 0.1s;
-            min-height: 85px;
-        }
-
-        .rocket-animation {
-            font-size: 60px;
-            margin: 20px 0;
-            transition: transform 0.3s;
-        }
-
         .controls {
             display: flex;
             gap: 15px;
-            margin-top: 30px;
+            margin-top: 20px;
         }
 
         .btn {
@@ -238,35 +315,6 @@
             font-size: 14px;
         }
 
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.9);
-            border-left: 4px solid #00ff88;
-            display: none;
-            z-index: 1000;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .notification.show {
-            display: block;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
         .auto-cashout {
             margin-top: 20px;
             padding: 15px;
@@ -307,13 +355,66 @@
             font-size: 16px;
         }
 
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.9);
+            border-left: 4px solid #00ff88;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .notification.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .explosion {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            animation: explode 0.5s ease-out;
+            z-index: 20;
+        }
+
+        @keyframes explode {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.5); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
         @media (max-width: 480px) {
             .multiplier-display {
                 font-size: 56px;
             }
             
+            .rocket-trajectory {
+                height: 150px;
+            }
+            
             .rocket-animation {
-                font-size: 48px;
+                font-size: 32px;
             }
             
             .controls {
@@ -330,6 +431,42 @@
             </div>
             <h1>🚀 РАКЕТКА</h1>
             <p>Остановите ракетку в нужный момент!</p>
+        </div>
+
+        <!-- ИГРОВОЕ ПОЛЕ ПЕРЕМЕЩЕНО НА ВЕРХ -->
+        <div class="game-container">
+            <div>Текущий коэффициент</div>
+            <div class="multiplier-display" id="multiplier">1.00x</div>
+            
+            <div class="speed-indicator">
+                <span>Скорость:</span>
+                <div class="speed-bar">
+                    <div class="speed-fill" id="speedFill"></div>
+                </div>
+                <span id="speedText">Медленно</span>
+            </div>
+            
+            <div class="rocket-trajectory">
+                <div class="trajectory-line"></div>
+                <div class="trajectory-marks">
+                    <div class="mark" style="top: 75%"><div class="mark-label">1.50x</div></div>
+                    <div class="mark" style="top: 50%"><div class="mark-label">2.00x</div></div>
+                    <div class="mark" style="top: 25%"><div class="mark-label">3.00x</div></div>
+                    <div class="mark" style="top: 10%"><div class="mark-label">5.00x</div></div>
+                </div>
+                <div class="rocket-animation" id="rocketAnimation">
+                    <i class="fas fa-rocket"></i>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="btn btn-start" id="startBtn" onclick="startGame()">
+                    <i class="fas fa-play"></i> Запустить
+                </button>
+                <button class="btn btn-cashout" id="cashoutBtn" onclick="cashout()">
+                    <i class="fas fa-hand-holding-usd"></i> Вывести
+                </button>
+            </div>
         </div>
 
         <div class="balance-container">
@@ -362,23 +499,6 @@
             </div>
         </div>
 
-        <div class="game-container">
-            <div>Текущий коэффициент</div>
-            <div class="multiplier-display" id="multiplier">1.00x</div>
-            <div class="rocket-animation" id="rocketAnimation">
-                <i class="fas fa-rocket"></i>
-            </div>
-            
-            <div class="controls">
-                <button class="btn btn-start" id="startBtn" onclick="startGame()">
-                    <i class="fas fa-play"></i> Запустить
-                </button>
-                <button class="btn btn-cashout" id="cashoutBtn" onclick="cashout()">
-                    <i class="fas fa-hand-holding-usd"></i> Вывести
-                </button>
-            </div>
-        </div>
-
         <div class="history">
             <div class="history-title">
                 <span>История игр</span>
@@ -406,7 +526,10 @@
         let gameActive = false;
         let currentMultiplier = 1.00;
         let gameInterval;
-        let rocketSpeed = 1;
+        let baseSpeed = 0.2; // Базовая скорость (медленный старт)
+        let acceleration = 0.005; // Ускорение
+        let maxSpeed = 1.0; // Максимальная скорость после 2.00x
+        let currentSpeed = 0;
         let autoCashout = null;
         let history = JSON.parse(localStorage.getItem('rocketHistory')) || [];
         let stats = JSON.parse(localStorage.getItem('rocketStats')) || { total: 0, wins: 0, losses: 0 };
@@ -429,6 +552,9 @@
                 document.getElementById('autoCashout').value = savedAutoCashout;
                 autoCashout = parseFloat(savedAutoCashout);
             }
+            
+            // Инициализация скорости
+            updateSpeedVisual();
         });
 
         // Установка ставки
@@ -436,6 +562,52 @@
             document.getElementById('betAmount').value = amount;
             currentBet = amount;
             localStorage.setItem('lastBet', amount);
+        }
+
+        // Обновление визуализации скорости
+        function updateSpeedVisual() {
+            const speedFill = document.getElementById('speedFill');
+            const speedText = document.getElementById('speedText');
+            
+            if (!gameActive) {
+                speedFill.style.width = '0%';
+                speedText.textContent = 'Медленно';
+                return;
+            }
+            
+            // Процент скорости от 0 до 100
+            const speedPercent = Math.min(100, (currentSpeed / maxSpeed) * 100);
+            speedFill.style.width = speedPercent + '%';
+            
+            // Текстовое описание скорости
+            if (currentSpeed < 0.3) {
+                speedText.textContent = 'Очень медленно';
+            } else if (currentSpeed < 0.6) {
+                speedText.textContent = 'Медленно';
+            } else if (currentSpeed < 0.8) {
+                speedText.textContent = 'Средне';
+            } else if (currentSpeed < 0.95) {
+                speedText.textContent = 'Быстро';
+            } else {
+                speedText.textContent = 'Очень быстро';
+            }
+        }
+
+        // Расчет текущей скорости
+        function calculateCurrentSpeed() {
+            if (currentMultiplier < 1.2) {
+                // Очень медленный старт
+                return baseSpeed;
+            } else if (currentMultiplier < 1.5) {
+                // Плавный разгон
+                return baseSpeed + (currentMultiplier - 1.2) * 0.5;
+            } else if (currentMultiplier < 2.0) {
+                // Ускорение
+                return baseSpeed + 0.15 + (currentMultiplier - 1.5) * 1.0;
+            } else {
+                // Фиксированная максимальная скорость после 2.00x
+                return maxSpeed;
+            }
         }
 
         // Начало игры
@@ -452,8 +624,13 @@
             
             currentBet = betAmount;
             currentMultiplier = 1.00;
-            rocketSpeed = 1;
+            currentSpeed = baseSpeed;
             gameActive = true;
+            
+            // Сброс анимации
+            const rocketElement = document.getElementById('rocketAnimation');
+            rocketElement.innerHTML = '<i class="fas fa-rocket"></i>';
+            rocketElement.style.color = '';
             
             // Сохраняем настройки
             localStorage.setItem('lastBet', betAmount);
@@ -480,12 +657,13 @@
 
         // Обновление игры
         function updateGame() {
-            // Увеличиваем множитель с рандомизацией
-            let increase = 0.01 * rocketSpeed * (0.9 + Math.random() * 0.2);
-            currentMultiplier += increase;
+            // Расчет текущей скорости
+            currentSpeed = calculateCurrentSpeed();
             
-            // Увеличиваем скорость со временем
-            rocketSpeed += 0.002;
+            // Увеличиваем множитель в зависимости от скорости
+            // Добавляем небольшую случайность для реалистичности
+            let increase = 0.01 * currentSpeed * (0.95 + Math.random() * 0.1);
+            currentMultiplier += increase;
             
             // Обновляем отображение
             const multiplierElement = document.getElementById('multiplier');
@@ -496,14 +674,29 @@
             // Меняем цвет в зависимости от множителя
             if (currentMultiplier > 10) {
                 multiplierElement.style.color = '#ff0000';
+                rocketElement.style.color = '#ff0000';
             } else if (currentMultiplier > 5) {
                 multiplierElement.style.color = '#ff8800';
+                rocketElement.style.color = '#ff8800';
             } else if (currentMultiplier > 2) {
                 multiplierElement.style.color = '#ffff00';
+                rocketElement.style.color = '#ffff00';
+            } else if (currentMultiplier > 1.5) {
+                multiplierElement.style.color = '#00ff88';
+                rocketElement.style.color = '#00ff88';
+            } else {
+                multiplierElement.style.color = '#00ff88';
+                rocketElement.style.color = '#ffffff';
             }
             
-            // Анимация ракеты
-            rocketElement.style.transform = `translateY(-${Math.min(100, (currentMultiplier - 1) * 10)}px) rotate(${(currentMultiplier - 1) * 5}deg)`;
+            // Анимация ракеты (движение вверх)
+            // Максимальная высота соответствует множителю 10x
+            const maxHeight = 190; // пикселей (немного меньше высоты контейнера)
+            const rocketHeight = Math.min(maxHeight, (currentMultiplier - 1) * (maxHeight / 9));
+            rocketElement.style.transform = `translateX(-50%) translateY(-${rocketHeight}px)`;
+            
+            // Обновляем визуализацию скорости
+            updateSpeedVisual();
             
             // Проверка автовывода
             if (autoCashout && currentMultiplier >= autoCashout) {
@@ -511,8 +704,25 @@
                 return;
             }
             
-            // Случайный краш (вероятность увеличивается со временем)
-            const crashChance = Math.min(0.5, (currentMultiplier - 1) * 0.02);
+            // Вероятность краха (увеличивается с множителем)
+            // Формула: базовая вероятность + увеличение за множитель
+            let crashChance = 0;
+            
+            if (currentMultiplier < 1.5) {
+                crashChance = 0.001; // Очень низкая вероятность на старте
+            } else if (currentMultiplier < 2.0) {
+                crashChance = 0.003 + (currentMultiplier - 1.5) * 0.01;
+            } else if (currentMultiplier < 3.0) {
+                crashChance = 0.008 + (currentMultiplier - 2.0) * 0.015;
+            } else if (currentMultiplier < 5.0) {
+                crashChance = 0.023 + (currentMultiplier - 3.0) * 0.02;
+            } else {
+                crashChance = 0.063 + (currentMultiplier - 5.0) * 0.03;
+            }
+            
+            // Максимальная вероятность 50%
+            crashChance = Math.min(0.5, crashChance);
+            
             if (Math.random() < crashChance) {
                 endGame(false);
             }
@@ -549,13 +759,32 @@
                 setTimeout(() => {
                     document.getElementById('multiplier').style.animation = 'pulse 0.5s 3';
                 }, 10);
+                
+                // Анимация успешной посадки
+                const rocketElement = document.getElementById('rocketAnimation');
+                rocketElement.innerHTML = '<i class="fas fa-flag-checkered"></i>';
+                setTimeout(() => {
+                    rocketElement.innerHTML = '<i class="fas fa-rocket"></i>';
+                }, 1000);
             } else {
-                showNotification(`Ракетка разбилась! Вы проиграли ${currentBet}₽`, 'error');
+                showNotification(`Ракетка разбилась на множителе ${currentMultiplier.toFixed(2)}x!`, 'error');
                 stats.losses++;
                 
-                // Анимация проигрыша
-                document.getElementById('rocketAnimation').innerHTML = '<i class="fas fa-explosion"></i>';
-                document.getElementById('rocketAnimation').style.color = '#ff0000';
+                // Анимация взрыва
+                const trajectory = document.querySelector('.rocket-trajectory');
+                const explosion = document.createElement('div');
+                explosion.className = 'explosion';
+                explosion.innerHTML = '<i class="fas fa-explosion"></i>';
+                explosion.style.color = '#ff0000';
+                
+                trajectory.appendChild(explosion);
+                
+                // Удаляем взрыв через 0.5 секунд
+                setTimeout(() => {
+                    if (explosion.parentNode) {
+                        explosion.parentNode.removeChild(explosion);
+                    }
+                }, 500);
             }
             
             stats.total++;
@@ -570,15 +799,17 @@
             updateBalance();
             updateHistory();
             updateStats();
+            updateSpeedVisual(); // Сбрасываем индикатор скорости
             
             document.getElementById('startBtn').disabled = false;
             document.getElementById('cashoutBtn').style.display = 'none';
             
             // Сброс анимации через 2 секунды
             setTimeout(() => {
-                document.getElementById('rocketAnimation').innerHTML = '<i class="fas fa-rocket"></i>';
-                document.getElementById('rocketAnimation').style.color = '';
-                document.getElementById('rocketAnimation').style.transform = '';
+                const rocketElement = document.getElementById('rocketAnimation');
+                rocketElement.innerHTML = '<i class="fas fa-rocket"></i>';
+                rocketElement.style.color = '';
+                rocketElement.style.transform = 'translateX(-50%) translateY(0)';
                 document.getElementById('multiplier').style.color = '#00ff88';
             }, 2000);
         }
@@ -636,8 +867,6 @@
         // Имитация пополнения через Telegram
         function openTelegram() {
             showNotification('В реальном приложении здесь будет открытие Telegram для пополнения', 'info');
-            // В реальном приложении:
-            // Telegram.WebApp.openInvoice(url, callback)
         }
 
         // Обработчики событий
@@ -657,9 +886,6 @@
         if (window.Telegram && Telegram.WebApp) {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();
-            
-            // Можно получать данные пользователя
-            // const user = Telegram.WebApp.initDataUnsafe.user;
         }
     </script>
 </body>
